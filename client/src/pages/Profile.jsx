@@ -3,6 +3,8 @@ import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/product.service';
+import { getAllOrders, getMyOrders, updateOrderStatus } from '../services/order.service';
+import io from 'socket.io-client';
 import './Profile.css';
 
 const Profile = ({ enforceAdmin }) => {
@@ -26,6 +28,17 @@ const Profile = ({ enforceAdmin }) => {
        }
    }, [user, isAdmin, enforceAdmin, navigate]);
 
+   useEffect(() => {
+       if (isAdmin) {
+           const socket = io('http://localhost:5000');
+           socket.on('new_order', (data) => {
+               alert(`🔔 ${data.message} - Total: $${data.totalAmount}`);
+               queryClient.invalidateQueries(['orders']);
+           });
+           return () => socket.disconnect();
+       }
+   }, [isAdmin, queryClient]);
+
    if (!user || (enforceAdmin && !isAdmin)) return null;
 
    const { data: allProducts, isLoading } = useQuery({
@@ -37,6 +50,14 @@ const Profile = ({ enforceAdmin }) => {
    const createMut = useMutation({ mutationFn: createProduct, onSuccess: () => { queryClient.invalidateQueries(['products']); resetForm(); } });
    const updateMut = useMutation({ mutationFn: updateProduct, onSuccess: () => { queryClient.invalidateQueries(['products']); resetForm(); } });
    const deleteMut = useMutation({ mutationFn: deleteProduct, onSuccess: () => { queryClient.invalidateQueries(['products']); } });
+
+   const { data: allOrders, isLoading: ordersLoading } = useQuery({
+      queryKey: ['orders'],
+      queryFn: isAdmin ? getAllOrders : getMyOrders,
+      enabled: activeTab === 'orders'
+   });
+   
+   const updateStatusMut = useMutation({ mutationFn: updateOrderStatus, onSuccess: () => { queryClient.invalidateQueries(['orders']); } });
 
    const resetForm = () => {
        setEditingId(null);
@@ -82,7 +103,7 @@ const Profile = ({ enforceAdmin }) => {
                {isAdmin && (
                   <li className={activeTab === 'inventory' ? 'active' : ''} onClick={() => setActiveTab('inventory')}><span>📦</span> Inventory CRUD</li>
                )}
-               <li><span>🛍️</span> Orders</li>
+               <li className={activeTab === 'orders' ? 'active' : ''} onClick={() => setActiveTab('orders')}><span>🛍️</span> Orders</li>
                <li><span>👥</span> Customers</li>
                <li><span>⚙️</span> Settings</li>
             </ul>
@@ -197,6 +218,74 @@ const Profile = ({ enforceAdmin }) => {
                      )}
                   </div>
                </>
+            )}
+
+            {activeTab === 'orders' && (
+               <div className="p-card">
+                  <h3 style={{marginBottom: '1rem'}}>🛍️ {isAdmin ? 'User Orders' : 'My Orders'}</h3>
+                  {ordersLoading ? <p>Loading orders...</p> : (
+                     <table className="history-table">
+                        <thead>
+                           <tr>
+                              <th>ORDER ID</th>
+                              {isAdmin && <th>USER</th>}
+                              <th>TOTAL</th>
+                              <th>PAYMENT</th>
+                              <th>STATUS</th>
+                              {isAdmin && <th>ACTIONS</th>}
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {allOrders?.map(order => (
+                              <tr key={order._id}>
+                                 <td style={{fontSize:'0.85rem', color:'#666'}}>{order._id}</td>
+                                 {isAdmin && <td><strong>{order.user?.name}</strong><br/><span style={{fontSize:'0.8rem', color:'#aaa'}}>{order.user?.email}</span></td>}
+                                 <td style={{fontWeight: 700}}>${order.totalAmount?.toFixed(2)}</td>
+                                 <td>{order.paymentMethod}</td>
+                                 <td>
+                                    <span style={{
+                                       padding:'0.4rem 0.8rem', 
+                                       borderRadius:'20px', 
+                                       fontSize:'0.8rem', 
+                                       fontWeight:600,
+                                       background: 
+                                          order.status === 'pending' ? '#fef3c7' : 
+                                          order.status === 'processing' ? '#e0e7ff' : 
+                                          order.status === 'shipped' ? '#dbeafe' : 
+                                          order.status === 'delivered' ? '#dcfce3' : '#fee2e2',
+                                       color: 
+                                          order.status === 'pending' ? '#d97706' : 
+                                          order.status === 'processing' ? '#4f46e5' : 
+                                          order.status === 'shipped' ? '#2563eb' : 
+                                          order.status === 'delivered' ? '#16a34a' : '#dc2626'
+                                    }}>
+                                       {order.status.toUpperCase()}
+                                    </span>
+                                 </td>
+                                 {isAdmin && (
+                                 <td>
+                                    <select 
+                                       value={order.status} 
+                                       onChange={(e) => updateStatusMut.mutate({ id: order._id, status: e.target.value })}
+                                       style={{padding:'0.5rem', borderRadius:'4px', border:'1px solid #ddd'}}
+                                    >
+                                       <option value="pending">Pending</option>
+                                       <option value="processing">Processing</option>
+                                       <option value="shipped">Shipped</option>
+                                       <option value="delivered">Delivered</option>
+                                       <option value="cancelled">Cancelled</option>
+                                    </select>
+                                 </td>
+                                 )}
+                              </tr>
+                           ))}
+                           {(!allOrders || allOrders.length === 0) && (
+                              <tr><td colSpan={isAdmin ? 6 : 4} style={{textAlign:'center', padding:'2rem'}}>No orders found.</td></tr>
+                           )}
+                        </tbody>
+                     </table>
+                  )}
+               </div>
             )}
          </main>
       </div>

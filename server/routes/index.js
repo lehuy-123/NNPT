@@ -32,7 +32,12 @@ router.get('/suppliers', (req, res) => res.json({ message: 'Supplier routes' }))
 router.get('/inventory', (req, res) => res.json({ message: 'Inventory routes' }));
 router.get('/carts', (req, res) => res.json({ message: 'Cart routes' }));
 router.get('/vouchers', (req, res) => res.json({ message: 'Voucher routes' }));
-router.get('/orders', (req, res) => res.json({ message: 'Order routes' }));
+const orderController = require('../controllers/order.controller');
+
+router.get('/orders', protect, adminOnly, orderController.getAllOrders);
+router.get('/orders/myorders', protect, orderController.getMyOrders);
+router.put('/orders/:id/status', protect, adminOnly, orderController.updateOrderStatus);
+
 router.get('/reviews', (req, res) => res.json({ message: 'Review routes' }));
 router.get('/payments', (req, res) => res.json({ message: 'Payment routes' }));
 

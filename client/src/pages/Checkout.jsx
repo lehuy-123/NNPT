@@ -1,7 +1,38 @@
 import React from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { getCart, checkoutCart } from '../services/cart.service';
 import './Checkout.css';
 
 const Checkout = () => {
+   const navigate = useNavigate();
+   const queryClient = useQueryClient();
+
+   const { data: cartData, isLoading } = useQuery({
+       queryKey: ['cart'],
+       queryFn: getCart
+   });
+
+   const checkoutMut = useMutation({
+       mutationFn: checkoutCart,
+       onSuccess: () => {
+           queryClient.invalidateQueries(['cart']);
+           queryClient.invalidateQueries(['orders']);
+           alert('Order placed successfully!');
+           navigate('/profile');
+       },
+       onError: (err) => {
+           alert('Checkout failed: ' + (err.response?.data?.error || err.message));
+       }
+   });
+
+   const cart = cartData?.data;
+   const items = cart?.items || [];
+   const subtotal = cart?.totalPrice || 0;
+   const tax = subtotal * 0.08;
+   const total = subtotal + tax;
+
+   if (isLoading) return <div className="container" style={{padding:'2rem'}}>Loading checkout...</div>;
    return (
       <div className="container checkout-page">
          <div className="checkout-header">
@@ -70,29 +101,24 @@ const Checkout = () => {
             <div className="co-right">
                <div className="co-card order-summary">
                   <h3>Order Summary</h3>
-                  <div className="mini-cart-item">
-                     <img src="/images/laptop.png" alt="L" />
-                     <div>
-                        <strong>Precision X14 Laptop</strong>
-                        <p>32GB RAM / 1TB SSD</p>
-                        <span>$2,499.00</span>
+                  {items.length === 0 && <p>Your cart is empty.</p>}
+                  {items.map(item => (
+                     <div className="mini-cart-item" key={item._id}>
+                        <img src={item.product?.images?.[0] || "/images/phone.png"} alt="Product" />
+                        <div>
+                           <strong>{item.product?.name}</strong>
+                           <p>{item.variantName} x {item.quantity}</p>
+                           <span>${(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
                      </div>
-                  </div>
-                  <div className="mini-cart-item">
-                     <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=100" alt="B" />
-                     <div>
-                        <strong>SonicAir Buds Pro</strong>
-                        <p>Active Noise Cancelling</p>
-                        <span>$199.00</span>
-                     </div>
-                  </div>
+                  ))}
                   <hr/>
-                  <div className="summary-row"><span>Subtotal</span> <span>$2,698.00</span></div>
+                  <div className="summary-row"><span>Subtotal</span> <span>${subtotal.toFixed(2)}</span></div>
                   <div className="summary-row"><span>Shipping</span> <span className="text-primary" style={{fontWeight:700}}>Free</span></div>
-                  <div className="summary-row"><span>Tax</span> <span>$215.84</span></div>
+                  <div className="summary-row"><span>Tax (8%)</span> <span>${tax.toFixed(2)}</span></div>
                   <div className="summary-total" style={{marginTop:'1.5rem'}}>
                      <span style={{fontSize:'1.2rem', fontWeight:800}}>Total</span> 
-                     <strong style={{fontSize:'1.8rem', color:'var(--primary)'}}>$2,913.84</strong>
+                     <strong style={{fontSize:'1.8rem', color:'var(--primary)'}}>${total.toFixed(2)}</strong>
                   </div>
                </div>
 
@@ -121,7 +147,13 @@ const Checkout = () => {
                         <input type="radio" name="payment" />
                      </label>
                   </div>
-                  <button className="btn-primary w-100 checkout-submit">Order Now &rarr;</button>
+                  <button 
+                     className="btn-primary w-100 checkout-submit" 
+                     onClick={() => checkoutMut.mutate()}
+                     disabled={checkoutMut.isPending || items.length === 0}
+                  >
+                     {checkoutMut.isPending ? 'Processing...' : 'Order Now 🚀'}
+                  </button>
                   <p className="secure-badge text-center text-muted">
                     🔒 SECURE SSL ENCRYPTED TRANSACTION. YOUR DATA IS PROTECTED UNDER PRECISIONTECH PRIVACY STANDARDS.
                   </p>
