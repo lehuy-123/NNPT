@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/product.controller');
 const authController = require('../controllers/auth.controller');
+const cartController = require('../controllers/cart.controller');
+const uploadRoutes = require('./upload.routes');
 const { protect, adminOnly } = require('../middlewares/auth.middleware');
 
-// Authentication Routes
+// Routes
+router.use('/upload', uploadRoutes);
 router.post('/auth/register', authController.register);
 router.post('/auth/login', authController.login);
 
@@ -15,7 +18,7 @@ router.post('/products', protect, adminOnly, productController.createProduct);
 router.put('/products/:id', protect, adminOnly, productController.updateProduct);
 router.delete('/products/:id', protect, adminOnly, productController.deleteProduct);
 
-const cartController = require('../controllers/cart.controller');
+
 
 // Cart Routes
 router.get('/carts', protect, cartController.getCart);

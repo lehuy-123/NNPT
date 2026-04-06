@@ -1,5 +1,6 @@
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
+const mongoose = require('mongoose');
 
 exports.getCart = async (req, res) => {
     try {
@@ -54,9 +55,15 @@ exports.removeFromCart = async (req, res) => {
 const Order = require('../models/Order');
 
 exports.checkout = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
-        const cart = await Cart.findOne({ user: req.user._id });
-        if (!cart || cart.items.length === 0) return res.status(400).json({ error: 'Cart is empty' });
+        const cart = await Cart.findOne({ user: req.user._id }).session(session);
+        if (!cart || cart.items.length === 0) {
+            await session.abortTransaction();
+            session.endSession();
+            return res.status(400).json({ error: 'Cart is empty' });
+        }
 
         const tax = cart.totalPrice * 0.08;
         const finalAmount = cart.totalPrice + tax;
@@ -69,13 +76,27 @@ exports.checkout = async (req, res) => {
             shippingAddress: 'Online Transfer'
         });
 
-        await order.save();
+        await order.save({ session });
+        
         cart.items = [];
         cart.totalPrice = 0;
-        await cart.save();
+        await cart.save({ session });
+
+        // Commit logic giao dịch
+        await session.commitTransaction();
+        session.endSession();
+
+        // Gửi thông báo realtime qua Socket.io
+        const io = req.app.get('io');
+        if (io) {
+            io.emit('new_order', { message: 'Có đơn hàng mới!', orderId: order._id, totalAmount: finalAmount });
+        }
 
         res.json({ message: 'Order successful', order });
     } catch (error) {
+        // Rollback lại nếu lỗi
+        await session.abortTransaction();
+        session.endSession();
         res.status(500).json({ error: error.message });
     }
 };
