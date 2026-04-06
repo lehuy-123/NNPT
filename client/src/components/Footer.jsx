@@ -9,23 +9,23 @@ const Footer = () => {
           <div>
             <div className="footer-logo">PrecisionTech</div>
             <p className="footer-desc">
-              Engineering the next generation of robust, lab-grade hardware for the modern creator.
+              Thiết kế thế hệ phần cứng mạnh mẽ, đạt tiêu chuẩn phòng thí nghiệm cho thế hệ sáng tạo hiện đại.
             </p>
           </div>
           <div className="footer-col">
-            <h4>Support</h4>
+            <h4>Hỗ trợ</h4>
             <ul>
-              <li><Link to="/">Shipping Info</Link></li>
-              <li><Link to="/">Returns</Link></li>
-              <li><Link to="/">Support Center</Link></li>
+              <li><Link to="/">Thông tin vận chuyển</Link></li>
+              <li><Link to="/">Chính sách đổi trả</Link></li>
+              <li><Link to="/">Trung tâm hỗ trợ</Link></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Legal</h4>
+            <h4>Pháp lý</h4>
             <ul>
-              <li><Link to="/">Privacy Policy</Link></li>
-              <li><Link to="/">Terms of Service</Link></li>
-              <li><Link to="/">Corporate</Link></li>
+              <li><Link to="/">Chính sách bảo mật</Link></li>
+              <li><Link to="/">Điều khoản dịch vụ</Link></li>
+              <li><Link to="/">Doanh nghiệp</Link></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -38,7 +38,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          &copy; 2024 PrecisionTech Industrial Excellence. All rights reserved.
+          &copy; 2024 PrecisionTech Industrial Excellence. Bản quyền thuộc về Tinh Tam.
         </div>
       </div>
     </footer>

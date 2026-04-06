@@ -23,46 +23,46 @@ const Auth = () => {
          }
          navigate('/profile');
       } catch (err) {
-         alert('Authentication Failed: ' + (err.response?.data?.error || err.message));
+         alert('Lỗi xác thực: ' + (err.response?.data?.error || err.message));
       }
    };
 
    return (
       <div className="auth-container">
          <div className="auth-card">
-            <h2>{isLogin ? 'Sign In to PrecisionTech' : 'Create an Account'}</h2>
-            <p className="auth-subtitle">{isLogin ? 'Enter your credentials to access your workspace.' : 'Join the elite engineering platform.'}</p>
+            <h2>{isLogin ? 'Đăng nhập vào PrecisionTech' : 'Tạo tài khoản mới'}</h2>
+            <p className="auth-subtitle">{isLogin ? 'Nhập thông tin của bạn để truy cập hệ thống.' : 'Tham gia nền tảng công nghệ hàng đầu.'}</p>
             
             <div className="auth-tabs">
-               <button className={isLogin ? 'active' : ''} type="button" onClick={() => setIsLogin(true)}>Login</button>
-               <button className={!isLogin ? 'active' : ''} type="button" onClick={() => setIsLogin(false)}>Register</button>
+               <button className={isLogin ? 'active' : ''} type="button" onClick={() => setIsLogin(true)}>Đăng nhập</button>
+               <button className={!isLogin ? 'active' : ''} type="button" onClick={() => setIsLogin(false)}>Đăng ký</button>
             </div>
 
             <form onSubmit={handleSubmit} className="auth-form">
                {!isLogin && (
                   <div className="form-group">
-                     <label>FULL NAME</label>
-                     <input type="text" required onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Alex Sterling"/>
+                     <label>HỌ VÀ TÊN</label>
+                     <input type="text" required onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Nguyễn Văn A"/>
                   </div>
                )}
                <div className="form-group">
-                  <label>EMAIL ADDRESS</label>
+                  <label>ĐỊA CHỈ EMAIL</label>
                   <input type="email" required onChange={e => setFormData({...formData, email: e.target.value})} placeholder="alex@precision.tech"/>
                </div>
                <div className="form-group">
-                  <label>PASSWORD</label>
+                  <label>MẬT KHẨU</label>
                   <input type="password" required onChange={e => setFormData({...formData, password: e.target.value})} placeholder="••••••••"/>
                </div>
                {!isLogin && (
                   <div className="form-group">
-                     <label>ACCOUNT TYPE</label>
+                     <label>LOẠI TÀI KHOẢN</label>
                      <select onChange={e => setFormData({...formData, role: e.target.value})} value={formData.role}>
-                        <option value="user">Individual User (Default)</option>
-                        <option value="admin">System Admin</option>
+                        <option value="user">Người dùng cá nhân (Mặc định)</option>
+                        <option value="admin">Quản trị viên hệ thống</option>
                      </select>
                   </div>
                )}
-               <button type="submit" className="btn-primary w-100">{isLogin ? 'Access Workspace &rarr;' : 'Register Account &rarr;'}</button>
+               <button type="submit" className="btn-primary w-100">{isLogin ? 'Đăng nhập ngay &rarr;' : 'Đăng ký tài khoản &rarr;'}</button>
             </form>
          </div>
       </div>

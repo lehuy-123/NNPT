@@ -8,17 +8,17 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <div className="badge">NEW RELEASE</div>
+          <div className="badge">SẢN PHẨM MỚI</div>
           <h1 className="hero-title">
             <span>TITANBOOK</span><br />
             <span className="text-primary">PRECISION M1</span>
           </h1>
           <p className="hero-desc">
-            Engineered for absolute performance. Featuring the new 3nm architecture for surgical efficiency in every task.
+            Được chế tác cho hiệu suất tuyệt đối. Kiến trúc 3nm thế hệ mới mang lại hiệu năng xử lý tinh vi cho mọi tác vụ.
           </p>
           <div className="hero-actions">
-            <Link to="/product/1" className="btn-primary">Pre-order Now</Link>
-            <Link to="/product/1" className="btn-secondary">Technical Specs</Link>
+             <Link to="/category/laptops" className="btn-primary">Đặt hàng ngay</Link>
+             <Link to="/category/laptops" className="btn-secondary">Thông số kỹ thuật</Link>
           </div>
         </div>
         <div className="hero-image">
@@ -30,23 +30,23 @@ const Home = () => {
       <section className="container categories">
         <div className="cat-card primary-cat">
           <div className="cat-text">
-            <h3>Smartphones</h3>
-            <p>The Apex Series</p>
+             <h3>Điện thoại</h3>
+             <p>Dòng sản phẩm Apex</p>
           </div>
           <img src="/images/phone.png" alt="Smartphones" className="cat-img" />
         </div>
         <div className="cat-grid">
           <div className="cat-card h-half bg-light">
             <div className="cat-text">
-              <h3>Laptops</h3>
-              <p>Studio performance</p>
+               <h3>Máy tính xách tay</h3>
+               <p>Hiệu suất phòng thu</p>
             </div>
             <img src="/images/laptop.png" alt="Laptops" className="cat-img-right" style={{maxHeight:'200px'}} />
           </div>
           <div className="cat-row-2">
             <div className="cat-card bg-gray">
               <div className="cat-text">
-                <h3>Audio</h3>
+                 <h3>Âm thanh</h3>
               </div>
               <div className="square-img" style={{background: '#111'}}>
                   <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200" alt="Audio" />
@@ -54,7 +54,7 @@ const Home = () => {
             </div>
             <div className="cat-card bg-peach">
               <div className="cat-text">
-                <h3>Wearables</h3>
+                 <h3>Thiết bị đeo</h3>
               </div>
               <img src="/images/watch.png" alt="Wearables" className="cat-img-center" />
             </div>
@@ -68,17 +68,17 @@ const Home = () => {
           <div className="feature-item">
             <div className="f-icon">🧠</div>
             <h4>Neural Engine v5</h4>
-            <p>Integrated AI cores delivering 15 trillion operations per second for seamless machine learning integration.</p>
+             <p>Tích hợp các lõi AI mang lại 15 nghìn tỷ hoạt động mỗi giây để tích hợp máy học liền mạch.</p>
           </div>
           <div className="feature-item">
             <div className="f-icon">⚡</div>
-            <h4>Turbo Charging 2.0</h4>
-            <p>Precision power delivery that fills 50% capacity in under 12 minutes without degrading cell longevity.</p>
+             <h4>Sạc nhanh 2.0</h4>
+             <p>Cung cấp năng lượng chính xác, sạc đầy 50% chỉ trong dưới 12 phút mà không làm giảm tuổi thọ pin.</p>
           </div>
           <div className="feature-item">
             <div className="f-icon">🛡️</div>
-            <h4>Hard-Coded Security</h4>
-            <p>Dedicated security enclave ensures your biometric data and encryption keys never leave the hardware.</p>
+             <h4>Bảo mật phần cứng</h4>
+             <p>Vùng an toàn chuyên dụng đảm bảo dữ liệu sinh trắc học và khóa mã hóa của bạn không bao giờ rời khỏi thiết bị.</p>
           </div>
         </div>
       </section>
@@ -87,10 +87,10 @@ const Home = () => {
       <section className="container featured-hardware">
         <div className="fh-header">
           <div>
-            <h2>Featured Hardware</h2>
-            <p>Curated for professional workflows.</p>
+             <h2>Sản phẩm nổi bật</h2>
+             <p>Được thiết kế cho quy trình làm việc chuyên nghiệp.</p>
           </div>
-          <a href="#" className="link-all" onClick={(e)=>e.preventDefault()}>View Entire Catalog</a>
+           <a href="#" className="link-all" onClick={(e)=>e.preventDefault()}>Xem toàn bộ danh mục</a>
         </div>
         <div className="fh-grid">
           <div className="fh-card">
@@ -103,7 +103,7 @@ const Home = () => {
               <h4>Apex Pro 15</h4>
               <div className="fh-specs"><span>256GB</span><span>A1-Silicon</span></div>
               <div className="fh-footer">
-                <span className="fh-price">$1,199.00</span>
+                <span className="fh-price">29.990.000 đ</span>
                 <button className="btn-icon">🛒</button>
               </div>
             </div>
@@ -117,7 +117,7 @@ const Home = () => {
               <h4>Zenith Buds Elite</h4>
               <div className="fh-specs"><span>ANC 2.0</span><span>24h Battery</span></div>
               <div className="fh-footer">
-                <span className="fh-price">$299.00</span>
+                <span className="fh-price">7.490.000 đ</span>
                 <button className="btn-icon">🛒</button>
               </div>
             </div>
@@ -132,7 +132,7 @@ const Home = () => {
               <h4>Vanguard Watch X</h4>
               <div className="fh-specs"><span>GPS L5</span><span>Titanium</span></div>
               <div className="fh-footer">
-                <span className="fh-price">$749.00</span>
+                <span className="fh-price">18.990.000 đ</span>
                 <button className="btn-icon">🛒</button>
               </div>
             </div>
@@ -143,12 +143,12 @@ const Home = () => {
       {/* Newsletter */}
       <section className="newsletter">
         <div className="container newsletter-content">
-          <h2>Stay at the cutting edge.</h2>
-          <p>Join 50,000+ tech enthusiasts getting exclusive early access to hardware launches and technical insights.</p>
-          <div className="nl-form">
-            <input type="email" placeholder="Enter your business email" />
-            <button className="btn-primary" style={{backgroundColor: 'white', color: 'var(--primary)'}}>Subscribe</button>
-          </div>
+           <h2>Luôn dẫn đầu công nghệ.</h2>
+           <p>Tham gia cùng hơn 50.000+ người đam mê công nghệ để nhận quyền truy cập sớm độc quyền vào các đợt mở bán phần cứng.</p>
+           <div className="nl-form">
+             <input type="email" placeholder="Nhập email của bạn" />
+             <button className="btn-primary" style={{backgroundColor: 'white', color: 'var(--primary)'}}>Đăng ký</button>
+           </div>
         </div>
       </section>
     </div>

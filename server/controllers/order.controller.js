@@ -12,6 +12,31 @@ exports.getAllOrders = async (req, res) => {
     }
 };
 
+exports.getOrderStats = async (req, res) => {
+    try {
+        const stats = await Order.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalRevenue: { $sum: '$totalAmount' },
+                    totalOrders: { $count: {} },
+                    pendingOrders: {
+                        $sum: { $cond: [{ $eq: ['$status', 'pending'] }, 1, 0] }
+                    },
+                    deliveredOrders: {
+                        $sum: { $cond: [{ $eq: ['$status', 'delivered'] }, 1, 0] }
+                    }
+                }
+            }
+        ]);
+
+        const result = stats.length > 0 ? stats[0] : { totalRevenue: 0, totalOrders: 0, pendingOrders: 0, deliveredOrders: 0 };
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 exports.getMyOrders = async (req, res) => {
     try {
         const orders = await Order.find({ user: req.user._id })

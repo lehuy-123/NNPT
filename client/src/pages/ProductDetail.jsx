@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getProductById } from '../services/product.service';
 import { addToCart } from '../services/cart.service';
 import { AuthContext } from '../context/AuthContext';
+import { formatCurrency } from '../utils/format';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -21,14 +22,14 @@ const ProductDetail = () => {
   const addToCartMut = useMutation({
      mutationFn: addToCart,
      onSuccess: () => {
-        alert('Item successfully added to your Cart. Telemetry updated.');
+        alert('Thanh công! Sản phẩm đã được thêm vào giỏ hàng.');
         queryClient.invalidateQueries(['cart']);
      }
   });
 
   const handleCreateOrder = () => {
      if (!user) {
-        alert('Authentication Required to perform this action.');
+        alert('Bạn cần đăng nhập để thực hiện hành động này.');
         navigate('/auth');
         return;
      }
@@ -66,14 +67,14 @@ const ProductDetail = () => {
 
         <div className="pd-info">
           <div className="pd-badges">
-            <span className="badge-new">NEW RELEASE</span>
+            <span className="badge-new">SẢN PHẨM MỚI</span>
             <span className="badge-rating" style={{textTransform:'uppercase', background: '#e0f2fe', color: '#0284c7'}}>{product.category?.name || 'TECHNOLOGY'}</span>
           </div>
           <h1 className="pd-title">{product.name}</h1>
           <p className="pd-desc">{product.description || "The pinnacle of engineering. Built for the future of mobile performance."}</p>
           
           <div className="pd-variants">
-            <h4>Finish: <span className="text-muted" style={{fontWeight: 400}}>Obsidian Black</span></h4>
+            <h4>Màu sắc: <span className="text-muted" style={{fontWeight: 400}}>Đen nhám (Obsidian)</span></h4>
             <div className="color-options">
                <div className="color-circle active" style={{background: '#222'}}></div>
                <div className="color-circle" style={{background: '#888'}}></div>
@@ -84,7 +85,7 @@ const ProductDetail = () => {
             
             {product.variants && product.variants.length > 0 && (
                <>
-                  <h4 style={{marginTop: '1.5rem'}}>Storage Capacity / Configuration</h4>
+                  <h4 style={{marginTop: '1.5rem'}}>Dung lượng lưu trữ / Cấu hình</h4>
                   <div className="storage-options">
                     {product.variants.map((variant, idx) => (
                        <div 
@@ -104,17 +105,17 @@ const ProductDetail = () => {
           <div className="pd-buybox">
             <div className="price-row">
               <div className="price-wrap">
-                <span className="current-price">${(Number(product.price) + (selectedVariant?.additionalPrice || 0)).toFixed(2)}</span>
+                <span className="current-price">{formatCurrency(Number(product.price) + (selectedVariant?.additionalPrice || 0))}</span>
               </div>
-              <span className="limited-time">IN STOCK: {product.stock || 'Yes'}</span>
+              <span className="limited-time">TÌNH TRẠNG: {product.stock > 0 ? 'Còn hàng' : 'Liên hệ'} ({product.stock || 0})</span>
             </div>
             <button className="btn-primary w-100 pd-btn" onClick={handleCreateOrder} disabled={addToCartMut.isPending}>
-               {addToCartMut.isPending ? 'Processing...' : 'Add to Cart'}
+               {addToCartMut.isPending ? 'Đang xử lý...' : 'Thêm vào giỏ hàng'}
             </button>
-            <button className="btn-secondary w-100 pd-btn">Find a Store</button>
+            <button className="btn-secondary w-100 pd-btn">Tìm cửa hàng gần bạn</button>
             <div className="pd-guarantees">
-              <span>🚚 Free Express Shipping</span>
-              <span>🛡️ 2-Year Warranty</span>
+              <span>🚚 Miễn phí vận chuyển hỏa tốc</span>
+              <span>🛡️ Bảo hành chính hãng 2 năm</span>
             </div>
           </div>
         </div>
@@ -122,19 +123,19 @@ const ProductDetail = () => {
 
       <div className="pd-lower">
         <div className="pd-specs">
-          <h3>Technical Specifications</h3>
+          <h3>Thông số kỹ thuật</h3>
           <ul className="spec-list">
-            <li><span>Processor</span> <span>A1-Silicon 4nm Octa-core</span></li>
-            <li><span>Display</span> <span>6.7" OLED Liquid Retina (120Hz)</span></li>
-            <li><span>Camera</span> <span>50MP Main | 12MP Ultra-wide | 10MP Tele</span></li>
-            <li><span>Battery</span> <span>5,000 mAh (Fast Charge 65W)</span></li>
-            <li><span>OS</span> <span>PrecisionOS 14</span></li>
+            <li><span>Bộ vi xử lý</span> <span>Chip A1 4nm 8 nhân</span></li>
+            <li><span>Màn hình</span> <span>6.7" OLED Liquid Retina (120Hz)</span></li>
+            <li><span>Camera</span> <span>50MP Chính | 12MP Siêu rộng | 10MP Tele</span></li>
+            <li><span>Pin</span> <span>5,000 mAh (Sạc nhanh 65W)</span></li>
+            <li><span>Hệ điều hành</span> <span>PrecisionOS 14 (Tiếng Việt)</span></li>
           </ul>
         </div>
         <div className="pd-sustainability">
            <div className="sus-icon">🌿</div>
-           <h3>Commitment to Sustainability</h3>
-           <p>The Alpha-X is our greenest device yet. The frame is made from 100% recycled aerospace titanium, and the battery uses 100% recycled cobalt. We've reduced packaging by 40% and eliminated all plastic wraps.</p>
+           <h3>Cam kết về môi trường</h3>
+           <p>Alpha-X là thiết kế xanh nhất của chúng tôi từ trước đến nay. Khung máy làm từ 100% titan tái chế, và pin sử dụng 100% coban tái chế. Chúng tôi đã giảm 40% bao bì và loại bỏ hoàn toàn màng lọc nhựa.</p>
            <a href="#">Read our 2024 Impact Report &rarr;</a>
         </div>
       </div>
@@ -142,10 +143,10 @@ const ProductDetail = () => {
       <div className="pd-reviews">
         <div className="review-header">
            <div>
-             <h3>Verified Reviews</h3>
-             <p style={{fontSize: '0.9rem', marginTop: '0.5rem'}}>★★★★★ <strong>4.9 out of 5 based on 1,240 ratings</strong></p>
+             <h3>Đánh giá từ người dùng</h3>
+             <p style={{fontSize: '0.9rem', marginTop: '0.5rem'}}>★★★★★ <strong>4.9/5 dựa trên 1,240 lượt đánh giá</strong></p>
            </div>
-           <button className="btn-secondary" style={{background: '#111', color: 'white'}}>Write a Review</button>
+           <button className="btn-secondary" style={{background: '#111', color: 'white'}}>Viết đánh giá</button>
         </div>
         <div className="review-grid">
            <div className="review-card">
@@ -168,7 +169,7 @@ const ProductDetail = () => {
            </div>
         </div>
         <div className="r-viewall">
-          <a href="#" style={{color: 'var(--primary)', fontWeight: 600, textDecoration: 'none'}}>View All 1,240 Reviews &darr;</a>
+          <a href="#" style={{color: 'var(--primary)', fontWeight: 600, textDecoration: 'none'}}>Xem tất cả 1,240 đánh giá &darr;</a>
         </div>
       </div>
     </div>

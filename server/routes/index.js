@@ -35,6 +35,7 @@ router.get('/vouchers', (req, res) => res.json({ message: 'Voucher routes' }));
 const orderController = require('../controllers/order.controller');
 
 router.get('/orders', protect, adminOnly, orderController.getAllOrders);
+router.get('/orders/stats', protect, adminOnly, orderController.getOrderStats);
 router.get('/orders/myorders', protect, orderController.getMyOrders);
 router.put('/orders/:id/status', protect, adminOnly, orderController.updateOrderStatus);
 
