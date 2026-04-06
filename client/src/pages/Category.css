@@ -1,0 +1,26 @@
+.category-page { padding-bottom: 5rem; }
+.category-hero { background: var(--bg-off-white); padding: 5rem 0; text-align: center; margin-bottom: 4rem; border-bottom: 1px solid var(--border-color); }
+.category-hero h1 { font-size: 3.5rem; letter-spacing: 1px; margin-bottom: 1rem; color: var(--text-main); font-weight: 900; }
+.category-hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+.category-layout { display: flex; gap: 4rem; align-items: flex-start; }
+
+.cat-sidebar { width: 250px; flex-shrink: 0; position: sticky; top: 100px; }
+.cat-sidebar h3 { font-size: 1.25rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+.filter-group { margin-bottom: 2rem; }
+.filter-group h4 { font-size: 0.85rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; }
+.filter-group label { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.85rem; font-size: 0.95rem; color: var(--text-main); cursor: pointer; transition: 0.2s; }
+.filter-group label:hover { color: var(--primary); }
+.filter-group input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
+
+.cat-grid-wrapper { flex: 1; }
+.cat-controls { display: flex; justify-content: space-between; margin-bottom: 2.5rem; align-items: center; color: var(--text-muted); font-size: 0.95rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
+.sort-select { padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); font-weight: 600; cursor: pointer; background: white; font-size: 0.95rem; outline: none; }
+.sort-select:hover { border-color: var(--text-muted); }
+
+/* Reuse fh-card from home, but redefine grid gap */
+.cat-products-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 1.5rem !important; }
+.cat-products-grid .fh-card { transition: transform 0.2s, box-shadow 0.2s; }
+.cat-products-grid .fh-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+.pagination { text-align: center; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 3rem; }

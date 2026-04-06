@@ -1,0 +1,62 @@
+.p-detail-page { padding: 4rem 2rem; }
+.pd-main { display: flex; gap: 4rem; margin-bottom: 4rem; }
+.pd-images { flex: 1.2; }
+.main-img { background: #1a1a1a; padding: 2rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; height: 500px; margin-bottom: 1rem; }
+.main-img img { max-width: 90%; max-height: 90%; object-fit: contain; }
+.thumb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.thumb { background: #1a1a1a; border-radius: 6px; height: 100px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid transparent; }
+.thumb:hover { border-color: var(--primary); }
+.thumb img { max-height: 80%; }
+.more-thumb { background: #333; color: white; flex-direction: column; font-weight: 700; font-size: 1.2rem; }
+
+.pd-info { flex: 1; }
+.pd-badges { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; font-size: 0.8rem; font-weight: 700; }
+.badge-new { background: #e0f2fe; color: #0284c7; padding: 0.3rem 0.6rem; border-radius: 4px; }
+.badge-rating { color: #9e3200; }
+.pd-title { font-size: 3rem; margin-bottom: 1rem; }
+.pd-desc { color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem; }
+
+.pd-variants h4 { margin-bottom: 0.5rem; font-size: 0.95rem; }
+.color-options { display: flex; gap: 1rem; }
+.color-circle { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 0 0 1px var(--border-color); }
+.color-circle.active { box-shadow: 0 0 0 2px var(--primary); }
+
+.storage-options { display: flex; gap: 1rem; }
+.storage-box { flex: 1; border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+.storage-box.active { border-color: var(--primary); background: #f0f7ff; }
+.s-size { display: block; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.2rem; }
+.s-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+.pd-buybox { margin-top: 3rem; background: var(--bg-off-white); padding: 2rem; border-radius: 8px; }
+.price-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem; }
+.old-price { text-decoration: line-through; color: var(--text-muted); margin-right: 1rem; font-size: 1.1rem; }
+.current-price { font-size: 2.5rem; font-weight: 800; }
+.limited-time { color: #9e3200; font-size: 0.8rem; font-weight: 600; }
+.pd-btn { margin-bottom: 1rem; padding: 1rem; font-size: 1rem; }
+.w-100 { width: 100%; }
+.pd-guarantees { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem; }
+
+.pd-lower { display: flex; gap: 3rem; margin-bottom: 5rem; }
+.pd-specs { flex: 1.2; }
+.pd-specs h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+.spec-list { list-style: none; }
+.spec-list li { display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
+.spec-list li span:first-child { font-weight: 600; color: #444; }
+
+.pd-sustainability { flex: 0.8; background: var(--bg-off-white); padding: 2.5rem; border-radius: 8px; }
+.sus-icon { font-size: 2rem; margin-bottom: 1rem; }
+.pd-sustainability h3 { margin-bottom: 1rem; }
+.pd-sustainability p { color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; }
+.pd-sustainability a { color: var(--primary); font-weight: 600; text-decoration: none; }
+
+.pd-reviews { margin-bottom: 5rem; }
+.review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 2rem; }
+.review-card { background: white; padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color); }
+.rc-top { display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 0.85rem; }
+.r-date { color: var(--text-muted); }
+.review-card h4 { margin-bottom: 0.8rem; font-size: 1.1rem; }
+.review-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 2rem; flex-grow: 1; min-height: 80px;}
+.r-user { display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; }
+.r-avatar { width: 35px; height: 35px; background: #e0f2fe; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;}
+.r-viewall { text-align: center; margin-top: 1rem; }
